@@ -16,7 +16,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	const langs: string[] = ['csharp','css','cshtml','html','js','tsx'];
 
-	const provider1 = vscode.languages.registerCompletionItemProvider(
+	const snippetCompletionProvider = vscode.languages.registerCompletionItemProvider(
 		'markdown', 
 		{
 			provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) 
@@ -57,14 +57,56 @@ export async function activate(context: vscode.ExtensionContext) {
 				videoCompletion.preselect = true;
 				videoCompletion.sortText = 'AtcmplSnippet';
 
-				// return all completion items as array
+				const noteCompletion = new vscode.CompletionItem('note_tag');
+				noteCompletion.insertText = new vscode.SnippetString('{% note${1: icon=false} %}\r\n$0\r\n{% endnote %}');
+				noteCompletion.documentation = new vscode.MarkdownString("Inserts note admonition snippet.");
+				noteCompletion.preselect = true;
+				noteCompletion.sortText = 'AtcmplSnippet';
+
+				const infoCompletion = new vscode.CompletionItem('info_tag');
+				infoCompletion.insertText = new vscode.SnippetString('{% info${1: icon=false} %}\r\n$0\r\n{% endinfo %}');
+				infoCompletion.documentation = new vscode.MarkdownString("Inserts info admonition snippet.");
+				infoCompletion.preselect = true;
+				infoCompletion.sortText = 'AtcmplSnippet';
+
+				const warningCompletion = new vscode.CompletionItem('warning_tag');
+				warningCompletion.insertText = new vscode.SnippetString('{% warning${1: icon=false} %}\r\n$0\r\n{% endwarning %}');
+				warningCompletion.documentation = new vscode.MarkdownString("Inserts warning admonition snippet.");
+				warningCompletion.preselect = true;
+				warningCompletion.sortText = 'AtcmplSnippet';
+
+				const tipCompletion = new vscode.CompletionItem('tip_tag');
+				tipCompletion.insertText = new vscode.SnippetString('{% tip${1: icon=false} %}\r\n$0\r\n{% endtip %}');
+				tipCompletion.documentation = new vscode.MarkdownString("Inserts tip admonition snippet.");
+				tipCompletion.preselect = true;
+				tipCompletion.sortText = 'AtcmplSnippet';
+
+				const lineText = document.lineAt(position).text//.slice(0, position.character);
+				const afterCursor = document.lineAt(position).text//.slice(position.character);
+				const open = /(\{%)+?/i;
+				const close = /(%\})+?/i;
+				const openMatch = lineText.match(open);
+				const closeMatch = lineText.match(close);
+				const firstOpenIndex = openMatch?.index ? openMatch.index : -1;
+				const firstCloseIndex = closeMatch?.index ? closeMatch.index : -1;
+				// if (firstCloseIndex > position.character) {
+				// 	return undefined;
+				// }
+				// if (firstOpenIndex < position.character) {
+				// 	return undefined;
+				// }
+
 				return [
 					pagelinkCompletion,
 					inPagelinkCompletion,
 					codeCompletion,
 					imageCompletion,
 					fileCompletion,
-					videoCompletion
+					videoCompletion,
+					noteCompletion,
+					infoCompletion,
+					warningCompletion,
+					tipCompletion
 				];
 			}
 		}
@@ -84,6 +126,8 @@ export async function activate(context: vscode.ExtensionContext) {
 		const completion = new vscode.CompletionItem(`${jsonHeader.title}--${jsonHeader.identifier}`, 
 						vscode.CompletionItemKind.Enum);
 		completion.insertText = `${jsonHeader.identifier}`;
+		completion.preselect = true;
+		completion.sortText = 'AtcmplPgLnk';
 		completions.push(completion)
 	};
 	async function loadFile(file: vscode.Uri){
@@ -191,23 +235,59 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	)	
 
-	context.subscriptions.push(provider1, 
+	const iconCompletions: vscode.CompletionItem[] = []
+	const kx13FileDescriptor = (await vscode.workspace.findFiles('**/src/_assets/less/**/kx13-icon-variables.less'))[0];
+	const kx13Definition = await fs.readFile(kx13FileDescriptor.fsPath, 'utf-8');
+	kx13Definition.split('\n').forEach(line => {
+		if (line.match(/^\.kx13-/gi))
+		{
+			console.log(line.match(/^\.(.*)(:before)/)?.[1])
+			const cmpl = new vscode.CompletionItem(`${line.match(/^\.(kx13.*):before/)?.[1]}`, vscode.CompletionItemKind.Value);
+			cmpl.sortText = "AtcmplIcn"
+			cmpl.preselect = true
+			iconCompletions.push(cmpl)
+		}
+	})
+	const xpFileDescriptor = (await vscode.workspace.findFiles('**/src/_assets/less/**/xp-icon-variables.less'))[0]
+	const xpDefinition = await fs.readFile(xpFileDescriptor.fsPath, 'utf-8');
+	xpDefinition.split('\n').forEach(line => {
+		if (line.match(/^\.xp-/gi))
+		{
+			const cmpl = new vscode.CompletionItem(`${line.match(/^\.(xp.*):bef/)?.[1]}`, vscode.CompletionItemKind.Value);
+			cmpl.sortText = "AtcmplIcn"
+			cmpl.preselect = true
+			iconCompletions.push(cmpl)
+		}
+	})
+	const iconCompletionProvider = vscode.languages.registerCompletionItemProvider(
+		'markdown',
+		{
+			provideCompletionItems(document, position, token, context) {
+				// get all text until the `position` and check if it reads `console.`
+				// and if so then complete if `log`, `warn`, and `error`
+				const line = document.lineAt(position).text;
+				if (!line.match(/\{\% icon .*\%\}/i)) {
+					return undefined;
+				}
+
+				const lineSuffix = document.lineAt(position).text.slice(position.character)
+				if (!lineSuffix.match(/.*\s+.*%}/gi)) {
+					return undefined;
+				}
+
+				return iconCompletions;
+			},
+		}
+	)
+
+	context.subscriptions.push(
+		snippetCompletionProvider, 
 		pageLinkCompletionProvider, 
 		inPageLinkCompletionProvider, 
 		codeLangCompletionProvider,
-		assetCompletionProvider
+		assetCompletionProvider,
+		iconCompletionProvider
 		);
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('kc-mdcompletions.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Kc-MdCompletions!');
-	});
-
-	context.subscriptions.push(disposable);
 
 	vscode.window.showInformationMessage('Autocompletions for XP loaded.');
 }
