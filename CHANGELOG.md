@@ -14,3 +14,7 @@ Initial release. Includes:
   - icon names
   - inpage_link headings
   - asset files included in the page's corresponding docsassets directory
+
+## [1.0.2]
+
+Only suggests icons from XP.

@@ -236,18 +236,18 @@ export async function activate(context: vscode.ExtensionContext) {
 	)	
 
 	const iconCompletions: vscode.CompletionItem[] = []
-	const kx13FileDescriptor = (await vscode.workspace.findFiles('**/src/_assets/less/**/kx13-icon-variables.less'))[0];
-	const kx13Definition = await fs.readFile(kx13FileDescriptor.fsPath, 'utf-8');
-	kx13Definition.split('\n').forEach(line => {
-		if (line.match(/^\.kx13-/gi))
-		{
-			console.log(line.match(/^\.(.*)(:before)/)?.[1])
-			const cmpl = new vscode.CompletionItem(`${line.match(/^\.(kx13.*):before/)?.[1]}`, vscode.CompletionItemKind.Value);
-			cmpl.sortText = "AtcmplIcn"
-			cmpl.preselect = true
-			iconCompletions.push(cmpl)
-		}
-	})
+	// const kx13FileDescriptor = (await vscode.workspace.findFiles('**/src/_assets/less/**/kx13-icon-variables.less'))[0];
+	// const kx13Definition = await fs.readFile(kx13FileDescriptor.fsPath, 'utf-8');
+	// kx13Definition.split('\n').forEach(line => {
+	// 	if (line.match(/^\.kx13-/gi))
+	// 	{
+	// 		console.log(line.match(/^\.(.*)(:before)/)?.[1])
+	// 		const cmpl = new vscode.CompletionItem(`${line.match(/^\.(kx13.*):before/)?.[1]}`, vscode.CompletionItemKind.Value);
+	// 		cmpl.sortText = "AtcmplIcn"
+	// 		cmpl.preselect = true
+	// 		iconCompletions.push(cmpl)
+	// 	}
+	// })
 	const xpFileDescriptor = (await vscode.workspace.findFiles('**/src/_assets/less/**/xp-icon-variables.less'))[0]
 	const xpDefinition = await fs.readFile(xpFileDescriptor.fsPath, 'utf-8');
 	xpDefinition.split('\n').forEach(line => {
