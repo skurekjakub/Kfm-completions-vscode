@@ -3,12 +3,14 @@
 import * as vscode from 'vscode';
 import * as fs from 'node:fs/promises';
 import YMAL from 'yaml';
-import path from 'node:path';
+import path from 'node:path'; 
 
-interface YamlHeader {
-	identifier?: string, 
-	title: string
-  }
+function detectLineEndings(source: string) {
+    var temp = source.indexOf('\n');
+    if (source[temp - 1] === '\r')
+        return 'CRLF'
+    return 'LF'
+}
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -121,11 +123,13 @@ export async function activate(context: vscode.ExtensionContext) {
 		let header = await loadFile(content)
 		const success = header.match(reg)
 		header = success?.[0] ? success?.[0] : ''
-		header = header.split('\r\n').slice(1,-1).join('\r\n')
+        const lineEnding = detectLineEndings(header);
+        header = preprocessHeader(header, lineEnding);
 		const jsonHeader = YMAL.parse(header ? header : '')
+        console.log(`${header ? header : "failed to parse"}`);
 		const completion = new vscode.CompletionItem(`${jsonHeader.title}--${jsonHeader.identifier}`, 
 						vscode.CompletionItemKind.Enum);
-		completion.insertText = `${jsonHeader.identifier}`;
+		completion.insertText = `${jsonHeader.identifier}`; 
 		completion.preselect = true;
 		completion.sortText = 'AtcmplPgLnk';
 		completions.push(completion)
@@ -294,3 +298,11 @@ export async function activate(context: vscode.ExtensionContext) {
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
+function preprocessHeader(header: string, lineEnding: string): string {
+    if (lineEnding == 'CRLF') {
+        return header.split('\r\n').slice(1, -1).filter(line => line.trim() !== "").join('\r\n')
+    }
+    
+    return header = header.split('\n').slice(1, -1).filter(line => line.trim() !== "").join('\n')
+}
+
