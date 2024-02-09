@@ -18,3 +18,7 @@ Initial release. Includes:
 ## [1.0.2]
 
 Only suggests icons from XP.
+
+## [1.0.3]
+
+Code highlight for {% code %} tags.

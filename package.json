@@ -1,9 +1,9 @@
 {
-  "name": "kc-mdcompletions",
+  "name": "kfm-mdcompletions",
   "author": {"name": "Jakub Skurek", "email": "dontbotherme@bumbaclot.com"},
   "displayName": "Kc-MdCompletions",
   "description": "Provides completions for Kentico-flavored markdown syntax.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -13,11 +13,15 @@
   "activationEvents": ["*"],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "kc-mdcompletions.helloWorld",
-        "title": "Hello World"
-      }
+    "grammars": [
+        {
+            "language": "markdown",
+            "scopeName": "text.html.markdown",
+            "path": "./src/grammars/kfmarkdown.tmLanguage.json",
+            "embeddedLanguages": {
+                "meta.embedded.block.frontmatter": "yaml"
+            }
+        }
     ]
   },
   "scripts": {
