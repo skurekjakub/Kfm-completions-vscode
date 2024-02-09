@@ -10,12 +10,12 @@ interface LineContext {
     tokenData: TokenData[]
 }
 
-export const parseLine = (line: string, position: Number): LineContext => {
+// export const parseLine = (line: string, position: Number): LineContext => {
 
-    const tokens = tokenize(line);
+//     const tokens = tokenize(line);
 
-    return context
-}
+//     return context
+// }
 
 const tokenize = (line: string) => {
     const tokens = line.split(' ');

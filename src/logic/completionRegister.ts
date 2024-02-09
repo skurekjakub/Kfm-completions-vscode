@@ -2,8 +2,7 @@ import * as vscode from 'vscode';
 import path from 'node:path';
 
 import { getSnippetCompletions, getIconCompletions, getPageLinkCompletions, getInpageLinkCompletions } from './completionProvider';
-import { LANGS, MARKDOWN, Scope } from './constants';
-import { parseLine } from './lineParser';
+import { LANGS, MARKDOWN } from './constants';
 
 export const registerCompletions = async (context: vscode.ExtensionContext) => {
     const snippetCompletionProvider = vscode.languages.registerCompletionItemProvider(
@@ -11,12 +10,9 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 		{
 			provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) 
 			{
-				const lineText = document.lineAt(position).text//.slice(0, position.character);
-				const lineContext = parseLine(lineText, position.character)
-				if (lineContext.currentScope == Scope.Text) {
-					return getSnippetCompletions();
-				}
-				return undefined;
+				const lineText = document.lineAt(position).text;
+				return getSnippetCompletions();
+                
 			}
 		}
 	);
@@ -42,7 +38,6 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 			provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
 				
 				const line = document.lineAt(position).text;
-				const lineContext = parseLine(line, position.character);
 
 				if (!line.match(/\{\% inpage_link.*\%\}/i)) {
 					return undefined;
