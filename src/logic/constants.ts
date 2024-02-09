@@ -1,4 +1,4 @@
-export const LANGS: string[] = ['csharp','css','cshtml','html','js','tsx'];
+export const LANGS: string[] = ['csharp','css','cshtml','html','js', 'json','tsx', 'xml'];
 
 export const MARKDOWN = 'markdown';
 export const XP_DOCUMENTATION_FILES = `**/src/_documentation/_xp/**`
@@ -12,7 +12,7 @@ export enum Scope {
  
 export const SYMBOLS = {
     TAG_OPEN: '{%',
-    TAG_CLOSE: '$}'
+    TAG_CLOSE: '%}'
 }
 
 export const TAG_NAMES = {
@@ -22,5 +22,5 @@ export const TAG_NAMES = {
     IMAGE: 'image',
     FILE: 'file',
     VIDEO: 'video',
-    CODE: 'code'    
+    CODE: 'code'
 }
