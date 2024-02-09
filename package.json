@@ -15,12 +15,11 @@
   "contributes": {
     "grammars": [
         {
-            "language": "markdown",
-            "scopeName": "text.html.markdown",
-            "path": "./grammars/kfmarkdown.tmLanguage.json",
-            "embeddedLanguages": {
-                "meta.embedded.block.frontmatter": "yaml"
-            }
+            "scopeName": "source.kfm.injection",
+            "path": "./grammars/injections/kfmarkdown.json",
+            "injectTo": [
+                "text.html.markdown"
+            ]
         }
     ]
   },
