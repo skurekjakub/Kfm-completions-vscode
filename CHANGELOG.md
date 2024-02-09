@@ -19,6 +19,7 @@ Initial release. Includes:
 
 Only suggests icons from XP.
 
-## [1.0.3]
+## [1.1]
 
-Code highlight for {% code %} tags.
+- Code highlight for stuff inside {% code %} tags.
+- General highlighting changes for kfm syntax.
