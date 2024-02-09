@@ -31,6 +31,9 @@
             "include": "#single_tag"
         },
         {
+            "include": "#pair_tag"
+        },
+        {
             "include": "#single_tag_link"
         }
     ],
@@ -59,6 +62,34 @@
                             "name": "keyword.other.arithmetic.liquid"
                         }
                     }
+                }
+            ]
+        },
+        "pair_tag": {
+            "begin": "(\\{%)\\s*(note|warning|info|tip|table|endnote|endwarning|endinfo|endtip|endtable|cell|endcell|row|endrow)",
+            "end": "(%\\})",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "2": {
+                    "name": "entity.name.tag.other.liquid"
+                }
+            },
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#strings"
+                },
+                {
+                    "include": "#numerics"
+                },
+                {
+                    "include": "#the_rest"
                 }
             ]
         },
@@ -97,7 +128,7 @@
             "patterns": [
                 {
                     "name": "variable.other",
-                    "match": "(title=|width=|linkText=|border=)(\\d*)?",
+                    "match": "(title=|width=|linkText=|border=|header=|color=|icon=)(\\d*)?",
                     "captures": {
                         "2":{
                             "name":"constant.numeric"
@@ -129,11 +160,14 @@
             "patterns": [
                 {
                     "include": "#strings"
+                },
+                {
+                    "include": "#the_rest"
                 }
             ]
         },
         "kfm_code_block_csharp": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=csharp)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=csharp)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -144,18 +178,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
@@ -187,7 +221,7 @@
             ]
         },
         "kfm_code_block_css": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=css)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=css)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -198,18 +232,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
@@ -241,7 +275,7 @@
             ]
         },
         "kfm_code_block_cshtml": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=cshtml)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=cshtml)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -252,18 +286,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
@@ -295,7 +329,7 @@
             ]
         },
         "kfm_code_block_xml": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=xml)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=xml)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -306,18 +340,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
@@ -349,7 +383,7 @@
             ]
         },
         "kfm_code_block_tsx": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=tsx)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=tsx)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -360,18 +394,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
@@ -403,7 +437,7 @@
             ]
         },
         "kfm_code_block_json": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=json)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=json)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -414,18 +448,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
@@ -457,7 +491,7 @@
             ]
         },
         "kfm_code_block_js": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=js)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=js)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -468,18 +502,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
@@ -511,7 +545,7 @@
             ]
         },
         "kfm_code_block_html": {
-            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=html)\\s*(.*)\\s*title=(\".*\")?(.*)(%})\\s*$",
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=html)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
             "name": "markup.kfm_code.block.markdown",
             "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
             "beginCaptures": {
@@ -522,18 +556,18 @@
                     "name": "entity.name.tag.other.liquid"
                 },
                 "4": {
-                    "name": "support.class.object"
+                    "name": "constant.sha.git-rebase"
                 },
-                "5": {
-                    "name": "keyword.control.flow"
-                },
-                "6": {
-                    "name": "string.quoted.double.liquid"
+                "6":{
+                    "name": "variable.other"
                 },
                 "7": {
-                    "name": "keyword.control.flow"
+                    "name": "string.quoted.double.liquid"
                 },
                 "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
                     "name": "punctuation.definition.tag.end.liquid"
                 }
             },
