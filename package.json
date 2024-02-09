@@ -17,7 +17,7 @@
         {
             "language": "markdown",
             "scopeName": "text.html.markdown",
-            "path": "./src/grammars/kfmarkdown.tmLanguage.json",
+            "path": "./grammars/kfmarkdown.tmLanguage.json",
             "embeddedLanguages": {
                 "meta.embedded.block.frontmatter": "yaml"
             }
