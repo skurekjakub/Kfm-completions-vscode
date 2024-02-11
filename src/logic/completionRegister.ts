@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { getSnippetCompletions, getIconCompletions, getPageLinkCompletions, getInpageLinkCompletions } from './completionProvider';
 import { LANGS, MARKDOWN } from './constants';
+import { getCollection } from './workspaceFileLoader';
 
 export const registerCompletions = async (context: vscode.ExtensionContext) => {
     const snippetCompletionProvider = vscode.languages.registerCompletionItemProvider(
@@ -63,18 +64,8 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 					return undefined;
 				}
 
-				var assetCompletions: vscode.CompletionItem[] = [];
-				console.log(path.basename(document.fileName));
-				const assets = await vscode.workspace
-				.findFiles(`**/src/docsassets/xp/${path.basename(document.fileName).replace(path.extname(document.fileName), '')}/**`);
-				assets.forEach(ass => {
-					var cmpl = new vscode.CompletionItem(`${path.basename(ass.fsPath)}`, vscode.CompletionItemKind.Color)
-					cmpl.preselect = true;
-					cmpl.sortText = 'AtcmplAssets'
-					assetCompletions.push(cmpl)
-				})
 				
-				return assetCompletions;
+				return await getAssetCompletionsForDocument(document);
 			},
 		}
 	)
@@ -137,4 +128,20 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 		assetCompletionProvider,
 		iconCompletionProvider
 		);
+}
+
+async function getAssetCompletionsForDocument(document: vscode.TextDocument) {
+
+    var assetCompletions: vscode.CompletionItem[] = [];
+    console.log(path.basename(document.fileName));
+    const assets = await vscode.workspace
+        .findFiles(`**/src/docsassets/${getCollection(document.uri)}/${path.basename(document.fileName).replace(path.extname(document.fileName), '')}/**`);
+    assets.forEach(ass => {
+        var cmpl = new vscode.CompletionItem(`${path.basename(ass.fsPath)}`, vscode.CompletionItemKind.Color)
+        cmpl.preselect = true;
+        cmpl.sortText = 'AtcmplAssets'
+        assetCompletions.push(cmpl)
+    })
+
+    return assetCompletions;
 }

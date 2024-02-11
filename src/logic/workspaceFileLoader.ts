@@ -2,26 +2,31 @@ import { CompletionItem, CompletionItemKind, workspace, Uri } from "vscode";
 import fs from 'node:fs/promises'
 import YAML from 'yaml';
 
-import { XP_DOCUMENTATION_FILES, XP_ICON_DEFINITIONS } from "./constants";
+import { XP_DOCUMENTATION_FILES,
+         API_DOCUMENTATION_FILES,   
+         TUTORIAL_DOCUMENTATION_FILES,
+         XP_ICON_DEFINITIONS } from "./constants";
 
-export const completions: CompletionItem[] = []
+export const pageIdCompletions: CompletionItem[] = []
 export const iconCompletions: CompletionItem[] = []
 
 export const loadXpMdFiles = async () => {
-	const fileDescriptors = (await workspace.findFiles(XP_DOCUMENTATION_FILES)).sort((a, b) => a.fsPath.length - b.fsPath.length);
+	const xpFileDescriptors = await getFileDescriptors(XP_DOCUMENTATION_FILES);
+    const tutorialFileDescriptors = await getFileDescriptors(TUTORIAL_DOCUMENTATION_FILES);
+    const apiFileDescriptors = await getFileDescriptors(API_DOCUMENTATION_FILES);
 
 	const reg: RegExp = /\s*^\s*---$(.*?)^---$/ms;
-	for (const descriptor of fileDescriptors) {
+	for (const descriptor of xpFileDescriptors.concat(tutorialFileDescriptors).concat(apiFileDescriptors)) {
 		console.log('processing:' + descriptor.fsPath);
 		let header = await loadFile(descriptor);
 		const success = header.match(reg);
 		header = success?.[1] ? success[1] : '';
 		const jsonHeader = YAML.parse(header);
-		const completion = new CompletionItem(`${jsonHeader.title}--${jsonHeader.identifier}`, CompletionItemKind.Enum);
+		const completion = new CompletionItem(`${jsonHeader.title}--${jsonHeader.identifier} (${getCollection(descriptor)})`, CompletionItemKind.Enum);
 		completion.insertText = `${jsonHeader.identifier}`;
 		completion.preselect = true;
 		completion.sortText = 'AtcmplPgLnk';
-		completions.push(completion);
+		pageIdCompletions.push(completion);
 	};
 }
 
@@ -41,4 +46,13 @@ export const loadXpIcons = async () => {
 
 async function loadFile(file: Uri) {
     return await fs.readFile(file.fsPath, 'utf-8');
+}
+
+async function getFileDescriptors(path: string) {
+    return (await workspace.findFiles(path)).sort((a, b) => a.fsPath.length - b.fsPath.length);
+}
+
+export function getCollection(descriptor: Uri) {
+    const collection = descriptor.fsPath.includes('_xp') ? 'xp' : descriptor.fsPath.includes('_tutorial') ? 'tutorial' : 'api';
+    return collection;
 }

@@ -1,16 +1,19 @@
 {
   "name": "kfm-mdcompletions",
   "author": {"name": "Jakub Skurek", "email": "dontbotherme@bumbaclot.com"},
-  "displayName": "Kc-MdCompletions",
+  "displayName": "Kfm-MdCompletions",
   "description": "Provides completions for Kentico-flavored markdown syntax.",
-  "version": "1.1.0",
+  "repository": {"url": "https://github.com/skurekjakub/Kfm-completions-vscode"},
+  "version": "1.1.1",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": ["*"],
+  "activationEvents": [
+    "workspaceContains:**/src/_documentation/_xp/**"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "grammars": [

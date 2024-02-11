@@ -23,3 +23,9 @@ Only suggests icons from XP.
 
 - Code highlight for stuff inside {% code %} tags.
 - General highlighting changes for kfm syntax.
+
+## [1.1.1]
+
+- Load page idenitifiers from _tutorial and _api as well.
+- Provide docsassets completions for _tutorial and _api as well.
+- Added {% table/row/cell %} completions.
