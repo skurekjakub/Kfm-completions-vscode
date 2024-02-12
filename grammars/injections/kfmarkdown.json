@@ -128,7 +128,7 @@
             "patterns": [
                 {
                     "name": "variable.other",
-                    "match": "(title=|width=|linkText=|border=|header=|color=|icon=)(\\d*)?",
+                    "match": "(minHeadingLevel=|maxHeadingLevel=|title=|width=|linkText=|border=|header=|color=|icon=|collection=)(\\d*)?",
                     "captures": {
                         "2":{
                             "name":"constant.numeric"
@@ -142,7 +142,7 @@
             ]
         },
         "single_tag_link": {
-            "begin": "(\\{%)\\s*(external_link|inpage_link|raw|endraw)",
+            "begin": "(\\{%)\\s*(external_link|inpage_link|raw|endraw|toc)",
             "end": "(%\\})",
             "beginCaptures": {
                 "1": {

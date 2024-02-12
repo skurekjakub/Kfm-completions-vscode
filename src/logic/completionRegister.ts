@@ -28,7 +28,7 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 					return undefined;
 				}
 				
-				return getPageLinkCompletions();
+				return getPageLinkCompletions(document);
 			}
 		},
 	);

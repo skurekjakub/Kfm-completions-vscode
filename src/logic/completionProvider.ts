@@ -1,6 +1,8 @@
-import { CompletionItem, CompletionItemKind, SnippetString, MarkdownString } from "vscode";
+import { CompletionItem, CompletionItemKind, SnippetString, MarkdownString, Uri } from "vscode";
 import { LANGS, TAG_NAMES } from "./constants";
-import { pageIdCompletions, iconCompletions } from "./workspaceFileLoader";
+import { pageFileHeaders, iconCompletions, getCollection } from "./workspaceFileLoader";
+
+import { TextDocument } from "vscode";
 
 export const getInpageLinkCompletions = (document: string) => {
     const inpagecompletions: CompletionItem[] = []
@@ -15,8 +17,25 @@ export const getInpageLinkCompletions = (document: string) => {
     return inpagecompletions;
 }
 
-export const getPageLinkCompletions = () => {
+export const getPageLinkCompletions = (document: TextDocument) => {
+    const pageIdCompletions: CompletionItem[] = []
+
+    for (const header of pageFileHeaders) {
+        const completion = new CompletionItem(`${header.title}--${header.identifier} (${header.collection})`, CompletionItemKind.Enum);
+        completion.insertText = `${header.identifier}${getCollectionText(header.collection, document.uri)}`;
+        completion.preselect = true;
+        completion.sortText = 'AtcmplPgLnk';
+        pageIdCompletions.push(completion);
+    }
     return pageIdCompletions;
+}
+
+function getCollectionText(headerCollection: string, uri: Uri) {
+    if (getCollection(uri) === headerCollection) {
+        return '';
+    } else {
+        return ` collection="${headerCollection}"`;
+    };
 }
 
 export const getIconCompletions = () => {
@@ -25,7 +44,7 @@ export const getIconCompletions = () => {
 
 export const getSnippetCompletions = (): CompletionItem[] => {
     const pagelinkCompletion = new CompletionItem('page_link');
-    pagelinkCompletion.insertText = new SnippetString('{% page_link $1${2: linkText=\"${3:(optional)}\" %} $0');
+    pagelinkCompletion.insertText = new SnippetString('{% page_link $1${2: linkText=\"${3:(optional)}\" %}} $0');
     pagelinkCompletion.documentation = new MarkdownString("Inserts a snippet that lets you link.");
     pagelinkCompletion.preselect = true;
     pagelinkCompletion.sortText = 'AtcmplSnippet';
@@ -118,3 +137,4 @@ export const getSnippetCompletions = (): CompletionItem[] => {
         cellCompletion
     ]
 }
+

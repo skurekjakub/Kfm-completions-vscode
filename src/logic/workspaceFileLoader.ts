@@ -7,7 +7,13 @@ import { XP_DOCUMENTATION_FILES,
          TUTORIAL_DOCUMENTATION_FILES,
          XP_ICON_DEFINITIONS } from "./constants";
 
-export const pageIdCompletions: CompletionItem[] = []
+interface JsonHeader {
+    title: string,
+    identifier: string,
+    collection: string
+}
+
+export const pageFileHeaders: JsonHeader[] = []
 export const iconCompletions: CompletionItem[] = []
 
 export const loadXpMdFiles = async () => {
@@ -15,19 +21,16 @@ export const loadXpMdFiles = async () => {
     const tutorialFileDescriptors = await getFileDescriptors(TUTORIAL_DOCUMENTATION_FILES);
     const apiFileDescriptors = await getFileDescriptors(API_DOCUMENTATION_FILES);
 
-	const reg: RegExp = /\s*^\s*---$(.*?)^---$/ms;
-	for (const descriptor of xpFileDescriptors.concat(tutorialFileDescriptors).concat(apiFileDescriptors)) {
-		console.log('processing:' + descriptor.fsPath);
-		let header = await loadFile(descriptor);
-		const success = header.match(reg);
-		header = success?.[1] ? success[1] : '';
-		const jsonHeader = YAML.parse(header);
-		const completion = new CompletionItem(`${jsonHeader.title}--${jsonHeader.identifier} (${getCollection(descriptor)})`, CompletionItemKind.Enum);
-		completion.insertText = `${jsonHeader.identifier}`;
-		completion.preselect = true;
-		completion.sortText = 'AtcmplPgLnk';
-		pageIdCompletions.push(completion);
-	};
+    const reg: RegExp = /\s*^\s*---$(.*?)^---$/ms;
+    for (const descriptor of xpFileDescriptors.concat(tutorialFileDescriptors).concat(apiFileDescriptors)) {
+        console.log('processing:' + descriptor.fsPath);
+        let header = await loadFile(descriptor);
+        const success = header.match(reg);
+        header = success?.[1] ? success[1] : '';
+        const headerParsed : JsonHeader = YAML.parse(header);
+        headerParsed.collection = getCollection(descriptor);
+        pageFileHeaders.push(headerParsed);
+    };
 }
 
 export const loadXpIcons = async () => {
