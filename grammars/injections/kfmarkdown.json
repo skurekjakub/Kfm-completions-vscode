@@ -4,28 +4,7 @@
     "injectionSelector": "L:text.html.markdown",
     "patterns": [
         {
-            "include": "#kfm_code_block_css"
-        },
-        {
-            "include": "#kfm_code_block_csharp"
-        },
-        {
-            "include": "#kfm_code_block_cshtml"
-        },
-        {
-            "include": "#kfm_code_block_xml"
-        },
-        {
-            "include": "#kfm_code_block_html"
-        },
-        {
-            "include": "#kfm_code_block_js"
-        },
-        {
-            "include": "#kfm_code_block_json"
-        },
-        {
-            "include": "#kfm_code_block_tsx"
+            "include": "#code_blocks"
         },
         {
             "include": "#single_tag"
@@ -38,6 +17,37 @@
         }
     ],
     "repository": {
+        "code_blocks":{
+            "patterns": [
+                    {
+                        "include": "#kfm_code_block_css"
+                    },
+                    {
+                        "include": "#kfm_code_block_csharp"
+                    },
+                    {
+                        "include": "#kfm_code_block_cshtml"
+                    },
+                    {
+                        "include": "#kfm_code_block_xml"
+                    },
+                    {
+                        "include": "#kfm_code_block_html"
+                    },
+                    {
+                        "include": "#kfm_code_block_js"
+                    },
+                    {
+                        "include": "#kfm_code_block_json"
+                    },
+                    {
+                        "include": "#kfm_code_block_tsx"
+                    },
+                    {
+                        "include": "#kfm_code_block_liquid"
+                    }
+            ]
+        },
         "strings": {
             "patterns": [
                 {
@@ -128,7 +138,7 @@
             "patterns": [
                 {
                     "name": "variable.other",
-                    "match": "(minHeadingLevel=|maxHeadingLevel=|title=|width=|linkText=|border=|header=|color=|icon=|collection=)(\\d*)?",
+                    "match": "(anchor=|minHeadingLevel=|maxHeadingLevel=|title=|width=|linkText=|border=|header=|color=|icon=|collection=)(\\d*)?",
                     "captures": {
                         "2":{
                             "name":"constant.numeric"
@@ -323,6 +333,60 @@
                     "patterns": [
                         {
                             "include": "source.cs"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kfm_code_block_liquid": {
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=liquid)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
+            "name": "markup.kfm_code.block.markdown",
+            "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
+            "beginCaptures": {
+                "2": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "3": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "4": {
+                    "name": "constant.sha.git-rebase"
+                },
+                "6": {
+                    "name": "variable.other"
+                },
+                "7": {
+                    "name": "string.quoted.double.liquid"
+                },
+                "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "endCaptures": {
+                "2": {
+                    "name": "punctuation.definition.kfmarkdown"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "4": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "5": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "^(?!\\s*(\\{%\\s*endcode\\s*%\\})\\s*$)",
+                    "contentName": "meta.embedded.block.cshtml",
+                    "patterns": [
+                        {
+                            "include": "text.git-commit"
                         }
                     ]
                 }

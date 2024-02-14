@@ -11,9 +11,7 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 		{
 			provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) 
 			{
-				const lineText = document.lineAt(position).text;
 				return getSnippetCompletions();
-                
 			}
 		}
 	);

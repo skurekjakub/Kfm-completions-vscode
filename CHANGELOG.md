@@ -30,6 +30,8 @@ Only suggests icons from XP.
 - Pages now show which collection they're from in brackets at the end of the autocomplete suggestion.
 - Provide docsassets completions for _tutorial and _api as well.
 - Added {% table/row/cell %} completions.
+- Added {% raw/endraw %} completion.
+- Added {% external_link %} completion.
 - {% page_link %} autocomplete now inserts the collection parameter as well if you're autocompleting a page in a different collection than the page you're on.
 - More intelligent extension activation condition.
 - Fixed an issue with {% page_link %} autocomplete

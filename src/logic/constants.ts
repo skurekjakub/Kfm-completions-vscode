@@ -1,4 +1,4 @@
-export const LANGS: string[] = ['csharp','css','cshtml','html','js', 'json','tsx', 'xml'];
+export const LANGS: string[] = ['csharp','css','cshtml','html','js', 'json','tsx', 'xml', 'liquid'];
 
 export const MARKDOWN = 'markdown';
 export const XP_DOCUMENTATION_FILES = `**/src/_documentation/_xp/**`

@@ -1,4 +1,4 @@
-import { CompletionItem, CompletionItemKind, SnippetString, MarkdownString, Uri } from "vscode";
+import { CompletionItem, CompletionItemKind, SnippetString, MarkdownString, Uri, TextEdit } from "vscode";
 import { LANGS, TAG_NAMES } from "./constants";
 import { pageFileHeaders, iconCompletions, getCollection } from "./workspaceFileLoader";
 
@@ -45,15 +45,21 @@ export const getIconCompletions = () => {
 export const getSnippetCompletions = (): CompletionItem[] => {
     const pagelinkCompletion = new CompletionItem('page_link');
     pagelinkCompletion.insertText = new SnippetString('{% page_link $1${2: linkText=\"${3:(optional)}\" %}} $0');
-    pagelinkCompletion.documentation = new MarkdownString("Inserts a snippet that lets you link.");
+    pagelinkCompletion.documentation = new MarkdownString("Inserts a tag that lets you link to different page.");
     pagelinkCompletion.preselect = true;
     pagelinkCompletion.sortText = 'AtcmplSnippet';
     
     const inPagelinkCompletion = new CompletionItem('inpage_link');
-    inPagelinkCompletion.insertText = new SnippetString('{%'+`${TAG_NAMES.INPAGE_LINK}`+'$1${2: linkText=\"${3:(optional)}\"} %} $0');
-    inPagelinkCompletion.documentation = new MarkdownString("Inserts a snippet that lets you link to an anchor on the current page.");
+    inPagelinkCompletion.insertText = new SnippetString('{% '+`${TAG_NAMES.INPAGE_LINK}`+' $1${2: linkText=\"${3:(optional)}\"} %} $0');
+    inPagelinkCompletion.documentation = new MarkdownString("Inserts a tag that lets you link to an anchor on the current page.");
     inPagelinkCompletion.preselect = true;
     inPagelinkCompletion.sortText = 'AtcmplSnippet';
+
+    const externalLinkCompletion = new CompletionItem('external_link');
+    externalLinkCompletion.insertText = new SnippetString('{% ' + `external_link` + ' $1${2: linkText=\"${3:(optional)}\"} %} $0');
+    externalLinkCompletion.documentation = new MarkdownString("Inserts a tag that lets you link to an external URL.");
+    externalLinkCompletion.preselect = true;
+    externalLinkCompletion.sortText = 'AtcmplSnippet';
 
     const codeCompletion = new CompletionItem('code_tag');
     codeCompletion.insertText = new SnippetString('{% '+`${TAG_NAMES.CODE}`+' lang=${1|'+`${LANGS.join(',')}`+'|} title=\"$2\"${3: linenumbers=true} %}\r\n$0\r\n{% endcode %}\r\n\r\n');
@@ -120,6 +126,12 @@ export const getSnippetCompletions = (): CompletionItem[] => {
     cellCompletion.documentation = new MarkdownString("Inserts cell start/end.");
     cellCompletion.preselect = true;
     cellCompletion.sortText = 'AtcmplSnippet';
+
+    const rawCompletion = new CompletionItem('raw_tag');
+    rawCompletion.insertText = new SnippetString('{% raw %}$TM_SELECTED_TEXT$0{% endraw %}');
+    rawCompletion.documentation = new MarkdownString("Surrounds text with {% raw %}{% endraw %}.");
+    rawCompletion.preselect = true;
+    rawCompletion.sortText = 'AtcmplSnippet';
     
     return [
         pagelinkCompletion,
@@ -134,7 +146,9 @@ export const getSnippetCompletions = (): CompletionItem[] => {
         tipCompletion,
         tableCompletion,
         rowCompletion,
-        cellCompletion
+        cellCompletion,
+        rawCompletion,
+        externalLinkCompletion
     ]
 }
 
