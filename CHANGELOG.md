@@ -27,12 +27,16 @@ Only suggests icons from XP.
 ## [1.1.1]
 
 - Load page idenitifiers from _tutorial and _api as well.
-- Pages now show which collection they're from in brackets at the end of the autocomplete suggestion.
+- Page ids in page_link autocomplete now show which collection they're from in brackets at the end of the suggestion.
 - Provide docsassets completions for _tutorial and _api as well.
 - Added {% table/row/cell %} completions.
 - Added {% raw/endraw %} completion.
 - Added {% external_link %} completion.
-- {% page_link %} autocomplete now inserts the collection parameter as well if you're autocompleting a page in a different collection than the page you're on.
+- {% page_link ... %} autocomplete now inserts the collection parameter as well if you're autocompleting links to pages in a different collection than the page you're on.
 - More intelligent extension activation condition.
-- Fixed an issue with {% page_link %} autocomplete
-- {% toc %} is now being highlighted (forgot about the tag entirely lol).
+- Fixed an issue with {% page_link ... %} autocomplete.
+- {% toc %} is now being highlighted.
+- Added {% page_tree %} completion.
+- Added {% page_tree %} highlighting.
+- Added {% panel %} tag autocompletion and highlighting.
+- Added {% video %} tag highlighting.
