@@ -44,7 +44,7 @@ export const getIconCompletions = () => {
 
 export const getSnippetCompletions = (): CompletionItem[] => {
     const pagelinkCompletion = new CompletionItem('page_link');
-    pagelinkCompletion.insertText = new SnippetString('{% page_link $1${2: linkText=\"${3:(optional)}${TM_SELECTED_TEXT}\" %}} $0');
+    pagelinkCompletion.insertText = new SnippetString('{% page_link $1${2: linkText=\"${TM_SELECTED_TEXT}\" %}} $0');
     pagelinkCompletion.documentation = new MarkdownString("Inserts a tag that lets you link to different page.");
     pagelinkCompletion.preselect = true;
     pagelinkCompletion.sortText = 'AtcmplSnippet';

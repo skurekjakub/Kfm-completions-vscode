@@ -4,7 +4,7 @@
   "displayName": "Kfm-MdCompletions",
   "description": "Provides completions for Kentico-flavored markdown syntax.",
   "repository": {"url": "https://github.com/skurekjakub/Kfm-completions-vscode"},
-  "version": "1.1.1",
+  "version": "1.1.2",
   "engines": {
     "vscode": "^1.85.0"
   },
