@@ -44,7 +44,7 @@ export const getIconCompletions = () => {
 
 export const getSnippetCompletions = (): CompletionItem[] => {
     const pagelinkCompletion = new CompletionItem('page_link');
-    pagelinkCompletion.insertText = new SnippetString('{% page_link $1${2: linkText=\"${3:(optional)}\" %}} $0');
+    pagelinkCompletion.insertText = new SnippetString('{% page_link $1${2: linkText=\"${3:(optional)}${TM_SELECTED_TEXT}\" %}} $0');
     pagelinkCompletion.documentation = new MarkdownString("Inserts a tag that lets you link to different page.");
     pagelinkCompletion.preselect = true;
     pagelinkCompletion.sortText = 'AtcmplSnippet';
@@ -144,6 +144,12 @@ export const getSnippetCompletions = (): CompletionItem[] => {
     panelCompletion.documentation = new MarkdownString("Panel that highlights surrounded text.");
     panelCompletion.preselect = true;
     panelCompletion.sortText = 'AtcmplSnippet';
+
+    const iconCompletion = new CompletionItem('icon_tag');
+    iconCompletion.insertText = new SnippetString('{% icon $1 color="$2" %}');
+    iconCompletion.documentation = new MarkdownString("Inserts an icon.");
+    iconCompletion.preselect = true;
+    iconCompletion.sortText = 'AtcmplSnippet';
     
     return [
         rawCompletion,
@@ -162,7 +168,8 @@ export const getSnippetCompletions = (): CompletionItem[] => {
         cellCompletion,
         externalLinkCompletion,
         pageTreeCompletion,
-        panelCompletion
+        panelCompletion,
+        iconCompletion
     ]
 }
 

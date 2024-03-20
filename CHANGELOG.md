@@ -40,3 +40,9 @@ Only suggests icons from XP.
 - Added {% page_tree %} highlighting.
 - Added {% panel %} tag autocompletion and highlighting.
 - Added {% video %} tag highlighting.
+
+## [1.1.2]
+
+- Icon name completions for XP link to storybook.
+- Added icon tag completion.
+- Selected text before page_link is applied transfered to 'linkText'. 

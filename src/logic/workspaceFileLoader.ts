@@ -1,4 +1,4 @@
-import { CompletionItem, CompletionItemKind, workspace, Uri } from "vscode";
+import { CompletionItem, CompletionItemKind, workspace, Uri, MarkdownString } from "vscode";
 import fs from 'node:fs/promises'
 import YAML from 'yaml';
 
@@ -42,6 +42,7 @@ export const loadXpIcons = async () => {
 			const cmpl = new CompletionItem(`${line.match(/^\.(xp.*):bef/)?.[1]}`, CompletionItemKind.Value);
 			cmpl.sortText = "AtcmplIcn"
 			cmpl.preselect = true
+            cmpl.documentation = new MarkdownString(`[Icon previews](https://storybookpreview.z6.web.core.windows.net/?path=/story/components-icons-icon--icons-library-story)`)
 			iconCompletions.push(cmpl)
 		}
 	})
