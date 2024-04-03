@@ -45,4 +45,11 @@ Only suggests icons from XP.
 
 - Icon name completions for XP link to storybook.
 - Added icon tag completion.
-- Selected text before page_link is applied transfered to 'linkText'. 
+- Selected text before page_link is applied transfered to 'linkText'.
+- fixed typo in {% table %} tag completion.
+- fixed typo in {% row %} tag completion.
+- Added {% status %} tag highlighting.
+
+TODO/UPCOMING
+- page_link anchor param suggests valid anchors (headings/anchor macros) on the target page
+- include {% anchors %} in the anchor suggestions for page_link and inpage_link

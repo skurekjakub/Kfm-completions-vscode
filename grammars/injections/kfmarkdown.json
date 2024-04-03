@@ -107,7 +107,7 @@
             ]
         },
         "single_tag": {
-            "begin": "(\\{%)\\s*(page_link|icon|image|anchor)\\s*([^ ]*)\\s",
+            "begin": "(\\{%)\\s*(page_link|icon|image|anchor|status)\\s*([^ ]*)\\s",
             "end": "(%\\})",
             "beginCaptures": {
                 "1":{
@@ -141,7 +141,7 @@
             "patterns": [
                 {
                     "name": "variable.other",
-                    "match": "(anchor=|height=|minHeadingLevel=|maxHeadingLevel=|title=|width=|linkText=|border=|header=|color=|icon=|collection=)(\\d*)?",
+                    "match": "(anchor=|height=|minHeadingLevel=|maxHeadingLevel=|title=|width=|linkText=|border=|header=|bgcolor=|color=|icon=|collection=)(\\d*)?",
                     "captures": {
                         "2":{
                             "name":"constant.numeric"

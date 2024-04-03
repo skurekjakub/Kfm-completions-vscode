@@ -110,13 +110,13 @@ export const getSnippetCompletions = (): CompletionItem[] => {
     tipCompletion.sortText = 'AtcmplSnippet';
 
     const tableCompletion = new CompletionItem('table_tag');
-    tableCompletion.insertText = new SnippetString('{% table %}\n$0\n{% entable %}');
+    tableCompletion.insertText = new SnippetString('{% table %}\n$0\n{% endtable %}');
     tableCompletion.documentation = new MarkdownString("Inserts table start/end.");
     tableCompletion.preselect = true;
     tableCompletion.sortText = 'AtcmplSnippet';
 
     const rowCompletion = new CompletionItem('row_tag');
-    rowCompletion.insertText = new SnippetString('{% row ${1: header=\"${2:(true/false)}\" %}\n$0\n{% endrow %}');
+    rowCompletion.insertText = new SnippetString('{% row ${1: header=\"${2:(true/false)}\"} %}\n$0\n{% endrow %}');
     rowCompletion.documentation = new MarkdownString("Inserts row start/end.");
     rowCompletion.preselect = true;
     rowCompletion.sortText = 'AtcmplSnippet';
