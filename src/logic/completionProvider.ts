@@ -62,8 +62,8 @@ export const getSnippetCompletions = (): CompletionItem[] => {
     externalLinkCompletion.sortText = 'AtcmplSnippet';
 
     const codeCompletion = new CompletionItem('code_tag');
-    codeCompletion.insertText = new SnippetString('{% '+`${TAG_NAMES.CODE}`+' lang=${1|'+`${LANGS.join(',')}`+'|} title=\"$2\"${3: linenumbers=true} %}\r\n$0\r\n{% endcode %}\r\n\r\n');
-    codeCompletion.documentation = new MarkdownString("Inserts a snippet that lets you link to an anchor on the current page.");
+    codeCompletion.insertText = new SnippetString('{% '+`${TAG_NAMES.CODE}`+' lang=${1|'+`${LANGS.join(',')}`+'|} title=\"$2\" %}\r\n$0\r\n{% endcode %}\r\n\r\n');
+    codeCompletion.documentation = new MarkdownString("Inserts a code tag snippet.");
     codeCompletion.preselect = true;
     codeCompletion.sortText = 'AtcmplSnippet';
 
