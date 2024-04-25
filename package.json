@@ -28,6 +28,10 @@
         "injectTo": [
           "text.html.markdown"
         ]
+      },
+      {
+        "scopeName": "source.graphql",
+        "path": "./grammars/graphql.json"
       }
     ]
   },
