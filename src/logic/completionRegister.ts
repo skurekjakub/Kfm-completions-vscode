@@ -133,7 +133,7 @@ async function getAssetCompletionsForDocument(document: vscode.TextDocument) {
     var assetCompletions: vscode.CompletionItem[] = [];
     console.log(path.basename(document.fileName));
     const assets = await vscode.workspace
-        .findFiles(`**/src/docsassets/${getCollection(document.uri)}/${path.basename(document.fileName).replace(path.extname(document.fileName), '')}/**`);
+        .findFiles(`**/src/_docsassets/${getCollection(document.uri)}/${path.basename(document.fileName).replace(path.extname(document.fileName), '')}/**`);
     assets.forEach(ass => {
         var cmpl = new vscode.CompletionItem(`${path.basename(ass.fsPath)}`, vscode.CompletionItemKind.Color)
         cmpl.preselect = true;
