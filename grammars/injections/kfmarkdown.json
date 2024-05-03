@@ -20,19 +20,16 @@
         "code_blocks":{
             "patterns": [
                     {
-                        "include": "#kfm_code_block_css"
-                    },
-                    {
                         "include": "#kfm_code_block_csharp"
                     },
                     {
                         "include": "#kfm_code_block_cshtml"
                     },
                     {
-                        "include": "#kfm_code_block_xml"
+                        "include": "#kfm_code_block_html"
                     },
                     {
-                        "include": "#kfm_code_block_html"
+                        "include": "#kfm_code_block_css"
                     },
                     {
                         "include": "#kfm_code_block_js"
@@ -41,13 +38,34 @@
                         "include": "#kfm_code_block_json"
                     },
                     {
+                        "include": "#kfm_code_block_graphql"
+                    },
+                    {
+                        "include": "#kfm_code_block_ts"
+                    },
+                    {
                         "include": "#kfm_code_block_tsx"
+                    },
+                    {
+                        "include": "#kfm_code_block_jsx"
+                    },
+                    {
+                        "include": "#kfm_code_block_yaml"
+                    },
+                    {
+                        "include": "#kfm_code_block_bicep"
+                    },
+                    {
+                        "include": "#kfm_code_block_xml"
+                    },
+                    {
+                        "include": "#kfm_code_block_powershell"
                     },
                     {
                         "include": "#kfm_code_block_liquid"
                     },
                     {
-                        "include": "#kfm_code_block_powershell"
+                        "include": "#kfm_code_block_markdown"
                     }
             ]
         },
@@ -714,6 +732,330 @@
                     "patterns": [
                         {
                             "include": "text.html.basic"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kfm_code_block_graphql": {
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=graphql)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
+            "name": "markup.kfm_code.block.markdown",
+            "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
+            "beginCaptures": {
+                "2": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "3": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "4": {
+                    "name": "constant.sha.git-rebase"
+                },
+                "6":{
+                    "name": "variable.other"
+                },
+                "7": {
+                    "name": "string.quoted.double.liquid"
+                },
+                "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "endCaptures": {
+                "2": {
+                    "name": "punctuation.definition.kfmarkdown"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "4": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "5": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "^(?!\\s*(\\{%\\s*endcode\\s*%\\})\\s*$)",
+                    "contentName": "meta.embedded.block.html",
+                    "patterns": [
+                        {
+                            "include": "source.graphql"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kfm_code_block_jsx": {
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=jsx)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
+            "name": "markup.kfm_code.block.markdown",
+            "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
+            "beginCaptures": {
+                "2": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "3": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "4": {
+                    "name": "constant.sha.git-rebase"
+                },
+                "6":{
+                    "name": "variable.other"
+                },
+                "7": {
+                    "name": "string.quoted.double.liquid"
+                },
+                "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "endCaptures": {
+                "2": {
+                    "name": "punctuation.definition.kfmarkdown"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "4": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "5": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "^(?!\\s*(\\{%\\s*endcode\\s*%\\})\\s*$)",
+                    "contentName": "meta.embedded.block.html",
+                    "patterns": [
+                        {
+                            "include": "source.js.jsx"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kfm_code_block_ts": {
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=ts)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
+            "name": "markup.kfm_code.block.markdown",
+            "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
+            "beginCaptures": {
+                "2": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "3": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "4": {
+                    "name": "constant.sha.git-rebase"
+                },
+                "6":{
+                    "name": "variable.other"
+                },
+                "7": {
+                    "name": "string.quoted.double.liquid"
+                },
+                "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "endCaptures": {
+                "2": {
+                    "name": "punctuation.definition.kfmarkdown"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "4": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "5": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "^(?!\\s*(\\{%\\s*endcode\\s*%\\})\\s*$)",
+                    "contentName": "meta.embedded.block.html",
+                    "patterns": [
+                        {
+                            "include": "source.ts"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kfm_code_block_markdown": {
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=markdown)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
+            "name": "markup.kfm_code.block.markdown",
+            "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
+            "beginCaptures": {
+                "2": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "3": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "4": {
+                    "name": "constant.sha.git-rebase"
+                },
+                "6":{
+                    "name": "variable.other"
+                },
+                "7": {
+                    "name": "string.quoted.double.liquid"
+                },
+                "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "endCaptures": {
+                "2": {
+                    "name": "punctuation.definition.kfmarkdown"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "4": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "5": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "^(?!\\s*(\\{%\\s*endcode\\s*%\\})\\s*$)",
+                    "contentName": "meta.embedded.block.html",
+                    "patterns": [
+                        {
+                            "include": "text.html.markdown"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kfm_code_block_bicep": {
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=bicep)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
+            "name": "markup.kfm_code.block.markdown",
+            "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
+            "beginCaptures": {
+                "2": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "3": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "4": {
+                    "name": "constant.sha.git-rebase"
+                },
+                "6":{
+                    "name": "variable.other"
+                },
+                "7": {
+                    "name": "string.quoted.double.liquid"
+                },
+                "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "endCaptures": {
+                "2": {
+                    "name": "punctuation.definition.kfmarkdown"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "4": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "5": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "^(?!\\s*(\\{%\\s*endcode\\s*%\\})\\s*$)",
+                    "contentName": "meta.embedded.block.html",
+                    "patterns": [
+                        {
+                            "include": "source.bicep"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kfm_code_block_yaml": {
+            "begin": "(^|\\G)\\s*(\\{%)\\s*(code)\\s*(lang=yaml)\\s*((title=)(\".*\"))?(.*)(%})\\s*$",
+            "name": "markup.kfm_code.block.markdown",
+            "end": "(^|\\G)(\\s*(\\{%)\\s*(endcode)\\s*(%\\})$)",
+            "beginCaptures": {
+                "2": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "3": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "4": {
+                    "name": "constant.sha.git-rebase"
+                },
+                "6":{
+                    "name": "variable.other"
+                },
+                "7": {
+                    "name": "string.quoted.double.liquid"
+                },
+                "8": {
+                    "name": "keyword.control.flow"
+                },
+                "9": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "endCaptures": {
+                "2": {
+                    "name": "punctuation.definition.kfmarkdown"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.begin.liquid"
+                },
+                "4": {
+                    "name": "entity.name.tag.other.liquid"
+                },
+                "5": {
+                    "name": "punctuation.definition.tag.end.liquid"
+                }
+            },
+            "patterns": [
+                {
+                    "begin": "(^|\\G)(\\s*)(.*)",
+                    "while": "^(?!\\s*(\\{%\\s*endcode\\s*%\\})\\s*$)",
+                    "contentName": "meta.embedded.block.html",
+                    "patterns": [
+                        {
+                            "include": "source.yaml"
                         }
                     ]
                 }
