@@ -1,4 +1,4 @@
-import { SYMBOLS, Scope } from "./constants"
+import { SYMBOLS, Scope } from "./constants";
 
 interface TokenData {
     scope: Scope,
@@ -19,7 +19,7 @@ interface LineContext {
 
 const tokenize = (line: string) => {
     const tokens = line.split(' ');
-    return decorate(tokens)
+    return decorate(tokens);
 }
 
 const decorate = (tokens: string[]) => {
@@ -30,6 +30,5 @@ const decorate = (tokens: string[]) => {
             default:
 
         }
-    })
-}
-
+    });
+};
