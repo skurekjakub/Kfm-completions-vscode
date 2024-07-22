@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import path from 'node:path';
 
-import { getSnippetCompletions, getIconCompletions, getPageLinkCompletions, getInpageLinkCompletions } from './completionProvider';
+import { getSnippetCompletions, getIconCompletions, getPageLinkCompletions, getInpageLinkCompletions, getLicenseTierCompletions } from './completionProvider';
 import { LANGS, MARKDOWN } from './constants';
 import { getCollection } from './workspaceFileLoader';
 
@@ -14,6 +14,21 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 				return getSnippetCompletions();
 			}
 		}
+	);
+
+	const licenseTierCompletionProvider = vscode.languages.registerCompletionItemProvider(
+		MARKDOWN,
+		{
+			async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) 
+			{
+				const line = document.lineAt(position).text;
+				if (!line.match(/\s*license:.*/i)) {
+					return undefined;
+				}
+				
+				return await getLicenseTierCompletions();
+			}
+		},
 	);
 
 	const pageLinkCompletionProvider = vscode.languages.registerCompletionItemProvider(
@@ -42,7 +57,7 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 					return undefined;
 				}
 				
-				return getInpageLinkCompletions(document.getText())
+				return getInpageLinkCompletions(document.getText());
 			}
 		}
 	);
@@ -66,13 +81,13 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 				return await getAssetCompletionsForDocument(document);
 			},
 		}
-	)
+	);
 
 	const codeLangCompletionProvider = vscode.languages.registerCompletionItemProvider(
 		MARKDOWN,
 		{
 			provideCompletionItems(document, position, token, context) {
-				let codeLangCompletions: vscode.CompletionItem[] = []
+				let codeLangCompletions: vscode.CompletionItem[] = [];
 				// get all text until the `position` and check if it reads `console.`
 				// and if so then complete if `log`, `warn`, and `error`
 				const line = document.lineAt(position).text;
@@ -80,7 +95,7 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 					return undefined;
 				}
 
-				const lineSuffix = document.lineAt(position).text.slice(position.character)
+				const lineSuffix = document.lineAt(position).text.slice(position.character);
 				if (!lineSuffix.match(/.*\s+title=.*%}/gi)) {
 					return undefined;
 				}
@@ -90,12 +105,12 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 					cmpl.sortText = 'AtcmplCodeLangShrtc';
 					cmpl.preselect = true;
 					codeLangCompletions.push(cmpl);
-				})
+				});
 
 				return codeLangCompletions;
 			},			
 		}
-	)
+	);
 
 	const iconCompletionProvider = vscode.languages.registerCompletionItemProvider(
 		MARKDOWN,
@@ -108,7 +123,7 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 					return undefined;
 				}
 
-				const lineSuffix = document.lineAt(position).text.slice(position.character)
+				const lineSuffix = document.lineAt(position).text.slice(position.character);
 				if (!lineSuffix.match(/.*\s+.*%}/gi)) {
 					return undefined;
 				}
@@ -116,7 +131,7 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 				return getIconCompletions();
 			},
 		}
-	)
+	);
 
 	context.subscriptions.push(
 		snippetCompletionProvider, 
@@ -124,9 +139,10 @@ export const registerCompletions = async (context: vscode.ExtensionContext) => {
 		inPageLinkCompletionProvider, 
 		codeLangCompletionProvider,
 		assetCompletionProvider,
-		iconCompletionProvider
+		iconCompletionProvider,
+		licenseTierCompletionProvider
 		);
-}
+};
 
 async function getAssetCompletionsForDocument(document: vscode.TextDocument) {
 
@@ -135,11 +151,11 @@ async function getAssetCompletionsForDocument(document: vscode.TextDocument) {
     const assets = await vscode.workspace
         .findFiles(`**/src/_docsassets/${getCollection(document.uri)}/${path.basename(document.fileName).replace(path.extname(document.fileName), '')}/**`);
     assets.forEach(ass => {
-        var cmpl = new vscode.CompletionItem(`${path.basename(ass.fsPath)}`, vscode.CompletionItemKind.Color)
+        var cmpl = new vscode.CompletionItem(`${path.basename(ass.fsPath)}`, vscode.CompletionItemKind.Color);
         cmpl.preselect = true;
-        cmpl.sortText = 'AtcmplAssets'
-        assetCompletions.push(cmpl)
-    })
+        cmpl.sortText = 'AtcmplAssets';
+        assetCompletions.push(cmpl);
+    });
 
     return assetCompletions;
 }

@@ -1,24 +1,24 @@
 import { CompletionItem, CompletionItemKind, SnippetString, MarkdownString, Uri, TextEdit } from "vscode";
 import { LANGS, TAG_NAMES } from "./constants";
-import { pageFileHeaders, iconCompletions, getCollection } from "./workspaceFileLoader";
+import { pageFileHeaders, iconCompletions, getCollection, loadLicenseTiers } from "./workspaceFileLoader";
 
 import { TextDocument } from "vscode";
 
 export const getInpageLinkCompletions = (document: string) => {
-    const inpagecompletions: CompletionItem[] = []
-    const headings = document.matchAll(/^#+\s+(.*)$/gm)
+    const inpagecompletions: CompletionItem[] = [];
+    const headings = document.matchAll(/^#+\s+(.*)$/gm);
     for (const heading of headings) {
-        let cmpl = new CompletionItem(`"${heading[1].replaceAll(/\{%.*%\}/g, '')}"`, CompletionItemKind.Enum)
-        cmpl.preselect = true
-        cmpl.sortText = "AtcmplMdTitle"
-        inpagecompletions.push(cmpl)
+        let cmpl = new CompletionItem(`"${heading[1].replaceAll(/\{%.*%\}/g, '')}"`, CompletionItemKind.Enum);
+        cmpl.preselect = true;
+        cmpl.sortText = "AtcmplMdTitle";
+        inpagecompletions.push(cmpl);
     }
 
     return inpagecompletions;
-}
+};
 
 export const getPageLinkCompletions = (document: TextDocument) => {
-    const pageIdCompletions: CompletionItem[] = []
+    const pageIdCompletions: CompletionItem[] = [];
 
     for (const header of pageFileHeaders) {
         const completion = new CompletionItem(`${header.title}--${header.identifier} (${header.collection})`, CompletionItemKind.Enum);
@@ -28,7 +28,7 @@ export const getPageLinkCompletions = (document: TextDocument) => {
         pageIdCompletions.push(completion);
     }
     return pageIdCompletions;
-}
+};
 
 function getCollectionText(headerCollection: string, uri: Uri) {
     if (getCollection(uri) === headerCollection) {
@@ -40,7 +40,22 @@ function getCollectionText(headerCollection: string, uri: Uri) {
 
 export const getIconCompletions = () => {
 	return iconCompletions;
-}
+};
+
+export const getLicenseTierCompletions = async (): Promise<CompletionItem[]> => {
+    const cmpls: CompletionItem[] = [];
+    const tiers = await loadLicenseTiers();
+    console.log(tiers)
+    Object.keys(tiers).forEach(key => {
+        const item = new CompletionItem(`License tier: ${key}--${tiers[key].tier}`, CompletionItemKind.Method);
+        item.insertText = `${key}`;
+        item.preselect = true;
+        item.sortText = 'AtcmplLcnsT';
+        cmpls.push(item);
+    });
+
+    return cmpls;
+};
 
 export const getSnippetCompletions = (): CompletionItem[] => {
     const pagelinkCompletion = new CompletionItem('page_link');
@@ -170,6 +185,6 @@ export const getSnippetCompletions = (): CompletionItem[] => {
         pageTreeCompletion,
         panelCompletion,
         iconCompletion
-    ]
-}
+    ];
+};
 
