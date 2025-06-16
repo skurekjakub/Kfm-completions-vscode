@@ -4,6 +4,11 @@ All notable changes to the "kc-mdcompletions" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.0]
+
+- Refactor plugin internals, should offer better completions more reliably, not spam unwanted ones based on other tags present on the current line.
+- Added completions for some of the newly added learn portal tags.
+
 ## [1.0.0]
 
 Initial release. Includes:
@@ -50,6 +55,12 @@ Only suggests icons from XP.
 - fixed typo in {% row %} tag completion.
 - Added {% status %} tag highlighting.
 
-TODO/UPCOMING
-- page_link anchor param suggests valid anchors (headings/anchor macros) on the target page
-- include {% anchors %} in the anchor suggestions for page_link and inpage_link
+
+## [1.1.5]
+
+- fix a bug with file parsing causing the addon to crash on startup
+
+## [1.1.7]
+
+- Added changelog categories completion.
+- Added code highlighting support for the sql, text, and cmd languages.

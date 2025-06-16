@@ -1,0 +1,33 @@
+# azure-pipelines.yml
+
+# Trigger pipeline for Pull Requests targeting the main branch
+pr:
+- main
+
+# Use a Microsoft-hosted agent
+pool:
+  vmImage: 'ubuntu-latest' # You can change this to windows-latest or macos-latest if needed
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x' # Specify the Node.js version matching your project needs
+  displayName: 'Install Node.js'
+
+- script: npm i # Use 'ci' for faster, reliable installs using package-lock.json. Use 'npm install' if no lock file.
+  displayName: 'Install Dependencies'
+
+- script: npm run compile # Assumes you have a 'compile' script in package.json that runs 'tsc'
+  displayName: 'Compile TypeScript'
+
+- script: npm run lint # Assumes you have a 'lint' script in package.json
+  displayName: 'Run Linter'
+  continueOnError: false # Fail the build if linting fails
+
+# - script: npm test # Assumes you have a 'test' script in package.json
+#   displayName: 'Run Unit Tests'
+#   continueOnError: false # Fail the build if tests fail
+
+- script: npm run package # Assumes you have a script that runs 'vsce package' and vsce is installed
+  displayName: 'Package Extension (.vsix)'
+  continueOnError: false # Fail if packaging fails

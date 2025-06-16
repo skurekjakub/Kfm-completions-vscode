@@ -1,0 +1,97 @@
+classDiagram
+    class Extension {
+        +activate(context)
+        +deactivate()
+    }
+    
+    class LifecycleSystem {
+        +initPlugin(context)
+        +disposeAll()
+    }
+    
+    class EventSystem {
+        +initEventHandling(context)
+        +registerEventListeners(context)
+        +subscribeEvents(context)
+        +fireEvent(name, payload)
+        +onInternalEvent()
+        +disposeEmitter()
+    }
+    
+    class CompletionSystem {
+        +initCompletions(context)
+        +registerAllTagDefinitions()
+        -snippetCompletionProvider
+        -attributeValueCompletionProvider
+        -missingAttributeProvider
+        -headerMissingAttributeProvider
+        -headerAttributeValueProvider
+        -YamlCompletionProvider
+    }
+    
+    class DiagnosticsSystem {
+        +initDiagnostics(context)
+        +triggerDiagnosticUpdate(editor, handler, type)
+        +updateHeaderDiagnostics(editor)
+        +updateTagDiagnostics(editor)
+        +clearDiagnosticTimer(uri)
+        +clearAllDiagnosticTimers()
+    }
+    
+    class DecorationSystem {
+        +initialize()
+        +getTypeByName(name)
+        +getAllManagedTypeNames()
+        +getTagDecorationTypeNames()
+        +handleConfigurationChange(event)
+        +dispose()
+        +updateTagDecorations(editor)
+        +updateEditorDecorations(editor)
+        +triggerTagDecorationUpdate(editor)
+        +triggerEditorDecorationUpdate(editor)
+        +clearAllTagDecorationTimers()
+        +clearAllEditorDecorationTimers()
+    }
+    
+    class FileSystem {
+        +loadXpMdFiles()
+        +loadXpIcons()
+        +loadLicenseTiers()
+        +loadChangelogCategories()
+        +getCollection(descriptor)
+        +getCardMediaCompletions()
+        +getCardTagIconCompletions()
+        +loadFileByIdentifier(pageId)
+        -loadFile(file)
+        -getFileDescriptors(globPattern)
+    }
+    
+    class TagDefinitions {
+        +registerTagDefinition(definition)
+        +getTagDefinition(tagName)
+        +getAllTagDefinitions()
+    }
+    
+    %% Main extension lifecycle dependencies
+    Extension --> LifecycleSystem
+    
+    %% Lifecycle system dependencies
+    LifecycleSystem --> CompletionSystem
+    LifecycleSystem --> DiagnosticsSystem
+    LifecycleSystem --> EventSystem
+    LifecycleSystem --> FileSystem
+    LifecycleSystem --> DecorationSystem
+    
+    %% CompletionSystem dependencies
+    CompletionSystem --> TagDefinitions
+    
+    %% EventSystem effects
+    EventSystem --> DiagnosticsSystem: triggers
+    EventSystem --> DecorationSystem: triggers
+    
+    %% DecorationSystem dependencies
+    DecorationSystem --> TagDefinitions
+    
+    %% FileSystem provides data to other systems
+    FileSystem --> CompletionSystem: provides data
+    FileSystem --> DiagnosticsSystem: provides paths

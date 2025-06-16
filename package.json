@@ -1,15 +1,16 @@
 {
   "name": "kfm-mdcompletions",
   "author": {
-    "name": "Jakub Skurek",
+    "name": "Technical Writers",
     "email": "dontbotherme@bumbaclot.com"
   },
   "displayName": "Kfm-MdCompletions",
   "description": "Provides completions for Kentico-flavored markdown syntax.",
   "repository": {
-    "url": "https://github.com/skurekjakub/Kfm-completions-vscode"
+    "url": "https://KenticoCustomerSuccess@dev.azure.com/KenticoCustomerSuccess/CustomerEducation/_git/kentico-docs-autocomplete-vscode"
   },
-  "version": "1.1.4",
+  "version": "1.2.0",
+  "publisher": "kentico-tws",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -17,9 +18,10 @@
     "Other"
   ],
   "activationEvents": [
-    "workspaceContains:**/src/_documentation/_xp/**"
+    "workspaceContains:**/src/_configs/_config_primary.yml"
   ],
   "main": "./dist/extension.js",
+  "icon": "./resources/neverhood.png",
   "contributes": {
     "grammars": [
       {
@@ -33,7 +35,30 @@
         "scopeName": "source.graphql",
         "path": "./grammars/graphql.json"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Kentico-flavored MD settings",
+      "properties": {
+        "kfm.codeBlockHighlight.backgroundColor": {
+          "type": "string",
+          "default": "rgba(255, 215, 0, 0.1)",
+          "description": "Background color for highlighted lines within {% code %} blocks. Use RGBA format for transparency (e.g., rgba(255, 0, 0, 0.2)).",
+          "scope": "resource"
+        },
+        "kfm.codeBlockHighlight.lineNumberHints": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the relative line number for the current line when inside a {% code %} block.",
+          "scope": "resource"
+        },
+        "kfm.admonitions.highlightEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable background highlight for admonition blocks. (EXPERIMENTAL)",
+          "scope": "resource" 
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -61,6 +86,6 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "yaml": "2.3.4"
+    "yaml": "^2.3.4"
   }
 }

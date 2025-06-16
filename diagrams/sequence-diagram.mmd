@@ -1,0 +1,113 @@
+sequenceDiagram
+    participant VSCode
+    participant Extension
+    participant LifecycleSystem
+    participant EventSystem
+    participant CompletionSystem
+    participant DiagnosticsSystem
+    participant DecorationSystem
+    participant FileSystem
+    
+    %% Extension activation
+    VSCode->>Extension: activate(context)
+    activate Extension
+    Extension->>LifecycleSystem: initPlugin(context)
+    activate LifecycleSystem
+    
+    %% Init completions
+    LifecycleSystem->>CompletionSystem: initCompletions(context)
+    activate CompletionSystem
+    CompletionSystem->>CompletionSystem: registerAllTagDefinitions()
+    CompletionSystem->>VSCode: Register completion providers
+    CompletionSystem-->>LifecycleSystem: Completions initialized
+    deactivate CompletionSystem
+    
+    %% Init diagnostics
+    LifecycleSystem->>DiagnosticsSystem: initDiagnostics(context)
+    activate DiagnosticsSystem
+    DiagnosticsSystem->>VSCode: Register diagnostic collections
+    DiagnosticsSystem-->>LifecycleSystem: Diagnostics initialized
+    deactivate DiagnosticsSystem
+    
+    %% Init events
+    LifecycleSystem->>EventSystem: initEventHandling(context)
+    activate EventSystem
+    EventSystem->>EventSystem: registerEventListeners(context)
+    EventSystem->>VSCode: Register VS Code event handlers
+    EventSystem-->>LifecycleSystem: Event handling initialized
+    deactivate EventSystem
+    
+    %% Load workspace files
+    LifecycleSystem->>FileSystem: loadXpMdFiles()
+    activate FileSystem
+    FileSystem->>VSCode: Find files (config)
+    VSCode-->>FileSystem: Config files
+    FileSystem->>VSCode: Find files (markdown)
+    VSCode-->>FileSystem: Markdown files
+    FileSystem->>FileSystem: Parse and store headers
+    FileSystem-->>LifecycleSystem: MD files loaded
+    deactivate FileSystem
+    
+    LifecycleSystem->>FileSystem: loadXpIcons()
+    activate FileSystem
+    FileSystem->>VSCode: Find files (icons)
+    VSCode-->>FileSystem: Icon files
+    FileSystem->>FileSystem: Create completion items
+    FileSystem-->>LifecycleSystem: Icons loaded
+    deactivate FileSystem
+    
+    %% Init decorations
+    LifecycleSystem->>DecorationSystem: decorationManager.initialize()
+    activate DecorationSystem
+    DecorationSystem->>DecorationSystem: Create decoration types
+    DecorationSystem-->>LifecycleSystem: Decorations initialized
+    deactivate DecorationSystem
+    
+    %% Subscribe to events
+    LifecycleSystem->>EventSystem: subscribeEvents(context)
+    activate EventSystem
+    EventSystem->>EventSystem: Set up internal event handler
+    EventSystem-->>LifecycleSystem: Events subscribed
+    deactivate EventSystem
+    
+    %% Fire activation complete
+    LifecycleSystem->>EventSystem: fireEvent('activationComplete')
+    activate EventSystem
+    EventSystem->>EventSystem: Handle activationComplete
+    EventSystem->>DiagnosticsSystem: Trigger initial diagnostics
+    EventSystem->>DecorationSystem: Trigger initial decorations
+    EventSystem-->>LifecycleSystem: Initial scan complete
+    deactivate EventSystem
+    
+    LifecycleSystem-->>Extension: Plugin initialized
+    deactivate LifecycleSystem
+    
+    Extension->>VSCode: Show information message
+    Extension-->>VSCode: Extension activated
+    deactivate Extension
+    
+    %% Normal operation (event-driven)
+    VSCode->>EventSystem: Document/Editor events
+    activate EventSystem
+    EventSystem->>EventSystem: Fire internal event
+    EventSystem->>DiagnosticsSystem: Trigger diagnostics
+    EventSystem->>DecorationSystem: Trigger decorations
+    EventSystem-->>VSCode: Event handled
+    deactivate EventSystem
+    
+    %% Extension deactivation
+    VSCode->>Extension: deactivate()
+    activate Extension
+    Extension->>LifecycleSystem: disposeAll()
+    activate LifecycleSystem
+    
+    LifecycleSystem->>DiagnosticsSystem: Clear diagnostic timers
+    LifecycleSystem->>DecorationSystem: Clear decoration timers
+    LifecycleSystem->>DecorationSystem: Dispose decoration manager
+    LifecycleSystem->>EventSystem: Dispose event emitter
+    
+    LifecycleSystem-->>Extension: Resources disposed
+    deactivate LifecycleSystem
+    
+    Extension-->>VSCode: Extension deactivated
+    deactivate Extension
